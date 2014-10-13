@@ -10,7 +10,9 @@ If you like this plugin, please click the **star** button at the top of the repo
 ## Features
 
 * Facebook OpenGraph
-* Twitter Summary Card
+* Twitter Summary Cards
+
+![Twitter Summary Card Example](http://puu.sh/cahIC/5207e8b2fd.png)
 
 ## Installation
 
