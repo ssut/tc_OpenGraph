@@ -2,6 +2,8 @@
 
 **aka. tc_OpenGraph**
 
+<a href="http://b.ssut.me/5" target="_blank">**[한국어]**</a>
+
 tc_OpenGraph is a textcube plugin. It allows adding of open graph and twitter summary information into your blog. Such information stored in meta tags can be then automatically displayed on e.g. Facebook and Twitter while some visitor of the blog commented.
 
 **Was this plugin helpful?**
