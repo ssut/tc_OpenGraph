@@ -21,8 +21,26 @@
                     <op name="enableOpenGraph" value="1" checked="checked"><![CDATA[OpenGraph]]></op>
                     <op name="enableTwitter" value="1" checked="checked"><![CDATA[Twitter]]></op>
                 </field>
-                <field title="Twitter 계정" name="twitterAccount" type="text" size="25">
+                <field title="Facebook" name="facebookID" type="text" size="25">
+                    <caption><![CDATA[OpenGraph 사용을 위해 Facebook 아이디 또는 Facebook App 아이디를 입력해주세요. (입력하지 않으면 Facebook에서 완벽하게 작동하지 않습니다)]]></caption>
+                </field>
+                <field title="Twitter" name="twitterAccount" type="text" size="25">
                     <caption><![CDATA[Twitter 카드를 사용하기 위해 Twitter 아이디를 입력해주세요. (입력하지 않으면 활성화되지 않습니다)]]></caption>
+                </field>
+            </fieldset>
+        </config>
+        <config xml:lang="en" dataValueHandler="opengraph_dataset()">
+            <window width="500" height="350" />
+            <fieldset legend="Plugin settings">
+                <field title="Allows" name="allows" type="checkbox">
+                    <op name="enableOpenGraph" value="1" checked="checked"><![CDATA[OpenGraph]]></op>
+                    <op name="enableTwitter" value="1" checked="checked"><![CDATA[Twitter]]></op>
+                </field>
+                <field title="Facebook" name="facebookID" type="text" size="25">
+                    <caption><![CDATA[Enter your Facebook ID or Facebook App ID for use OpenGraph. (it may not work properly when value is not entered)]]></caption>
+                </field>
+                <field title="Twitter" name="twitterAccount" type="text" size="25">
+                    <caption><![CDATA[Enter your Twitter ID for use Twitter Cards. (not work when value is not entered)]]></caption>
                 </field>
             </fieldset>
         </config>

@@ -20,6 +20,10 @@ function print_opengraph_meta_tags($target) {
     if($config['enableTwitter'] === '1' && !empty($config['twitterAccount'])) $twitter = true;
 
     $header = CRLF;
+    if(!empty($config['facebookID'])) {
+        $header .= '<meta name="fb:app_id" content="' . htmlspecialchars($config['facebookID']) . '" />' . CRLF;
+    }
+
     if($og) {
         $header .= '<meta name="og:site_name" content="' . htmlspecialchars($blog_title) . '" />' . CRLF;
         $header .= '<meta name="og:type" content="blog" />' . CRLF;
@@ -103,6 +107,7 @@ function init_config(&$config) {
     $config = array(
         'enableOpenGraph' => $null ? 1 : $config['enableOpenGraph'],
         'enableTwitter' => $null ? 0 : $config['enableTwitter'],
+        'facebookID' => $null ? '' : $config['facebookID'],
         'twitterAccount' => $null ? '' : $config['twitterAccount']
     );
 }
