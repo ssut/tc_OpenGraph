@@ -3,7 +3,7 @@ function print_opengraph_meta_tags($target) {
     global $configVal, $blog, $entry;
 
     $config = Setting::fetchConfigVal($configVal);
-    if(is_null($config)) init_config($config);
+    init_config($config);
 
     $context = Model_Context::getInstance();
     $blog_id = $context->getProperty('blog.id');
@@ -14,26 +14,32 @@ function print_opengraph_meta_tags($target) {
 
     $short_content = UTF8::lessenAsEm(removeAllTags(stripHTML($entry['content'])), 150);
 
+    $og = false;
     $twitter = false;
-    if($config['enableTwitter'] === '1') $twitter = true;
+    if($config['enableOpenGraph'] === '1') $og = true;
+    if($config['enableTwitter'] === '1' && !empty($config['twitterAccount'])) $twitter = true;
 
     $header = CRLF;
-    $header .= '<meta name="og:site_name" content="' . htmlspecialchars($blog_title) . '" />' . CRLF;
-    $header .= '<meta name="og:type" content="blog" />' . CRLF;
+    if($og) {
+        $header .= '<meta name="og:site_name" content="' . htmlspecialchars($blog_title) . '" />' . CRLF;
+        $header .= '<meta name="og:type" content="blog" />' . CRLF;
+    }
 
     if($twitter) {
         $header .= '<meta name="twitter:domain" content="' . htmlspecialchars($_SERVER['HTTP_HOST']) . '" />' . CRLF;
         $header .= '<meta name="twitter:card" content="summary" />' . CRLF;
-        $header .= '<meta name="twitter:site" content="' . $config['twitterUsername'] . '" />' . CRLF;
+        $header .= '<meta name="twitter:site" content="@' . $config['twitterAccount'] . '" />' . CRLF;
     }
 
     if(!empty($entry['title'])) {
         $url = $default_url . '/' . ($blog['useSloganOnPost'] ?
             'entry/'.URL::encode($entry['slogan'], $use_encode_url) : $entry['id']);
 
-        $header .= '<meta name="og:title" content="' . htmlspecialchars($entry['title']) . '" />' . CRLF;
-        $header .= '<meta name="og:url" content="' . htmlspecialchars($url) . '" />' . CRLF;
-        $header .= '<meta name="og:description" content="' . htmlspecialchars($short_content) . '" />' . CRLF;
+        if($og) {
+            $header .= '<meta name="og:title" content="' . htmlspecialchars($entry['title']) . '" />' . CRLF;
+            $header .= '<meta name="og:url" content="' . htmlspecialchars($url) . '" />' . CRLF;
+            $header .= '<meta name="og:description" content="' . htmlspecialchars($short_content) . '" />' . CRLF;
+        }
 
         if($twitter) {
             $header .= '<meta name="twitter:title" content="' . htmlspecialchars($entry['title']) . '" />' . CRLF;
@@ -43,7 +49,10 @@ function print_opengraph_meta_tags($target) {
 
         if(preg_match('/\[##_(1R|1L|1C|2C|3C|iMazing|Gallery)\|([^|]*)\.(gif|jpg|jpeg|png|bmp)\|.*_##\]/i', $entry['content'], $matches)) {
             $image_url = $default_url . '/attach/' . $blog_id . '/' . $matches[2] . '.' . $matches[3];
-            $header .= '<meta name="og:image" content="' . $image_url . '" />' . CRLF;
+
+            if($og) {
+                $header .= '<meta name="og:image" content="' . $image_url . '" />' . CRLF;
+            }
 
             if($twitter) {
                 $header .= '<meta name="twitter:image" content="' . $image_url . '" />' . CRLF;
@@ -52,7 +61,10 @@ function print_opengraph_meta_tags($target) {
             if(preg_match('/<\s*img [^\>]*src\s*=\s*(["\'])(.*?)\1/im', $entry['content'], $matches)) {
                 if(is_array($matches) && !empty($matches)) {
                     $image_url = $matches[2];
-                    $header .= '<meta name="og:image" content="' . $image_url . '" />' . CRLF;
+
+                    if($og) {
+                        $header .= '<meta name="og:image" content="' . $image_url . '" />' . CRLF;
+                    }
 
                     if($twitter) {
                         $header .= '<meta name="twitter:image" content="' . $image_url . '" />' . CRLF;
@@ -82,9 +94,11 @@ function opengraph_dataset($data) {
 }
 
 function init_config(&$config) {
+    $null = is_null($config);
     $config = array(
-        'enableTwitter' => false,
-        'twitterUsername' => ''
+        'enableOpenGraph' => $null ? 1 : $config['enableOpenGraph'],
+        'enableTwitter' => $null ? 0 : $config['enableTwitter'],
+        'twitterAccount' => $null ? '' : $config['twitterAccount']
     );
 }
 ?>
