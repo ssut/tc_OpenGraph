@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+    <title xml:lang="ko">오픈그래프(OpenGraph)</title>
+    <title xml:lang="en">OpenGraph</title>
+    <link>http://www.example.com/</link>
+    <version>1.0</version>
+    <description xml:lang="ko">이 플러그인은 블로그에 페이스북 오픈그래프 프로토콜을 사용할 수 있도록 해줍니다.</description>
+    <description xml:lang="en">This plugin allows you to add facebook open graph protocol to your blog.</description>
+    <license>MIT</license>
+    <author xml:lang="ko" link="http://b.ssut.me">ssut</author>
+    <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
+    <requirements>
+        <textcube>1.09</textcube>
+    </requirements>
+    <binding>
+        <tag name="SKIN_head_end" handler="print_opengraph_meta_tags" />
+        <config xml:lang="ko" dataValueHandler="opengraph_dataset()">
+            <window width="500" height="350" />
+            <fieldset legend="플러그인 설정">
+                <field title="허용" name="allows" type="checkbox">
+                    <op name="enableOpenGraph" value="1" checked="checked"><![CDATA[OpenGraph]]></op>
+                    <op name="enableTwitter" value="1" checked="checked"><![CDATA[Twitter]]></op>
+                </field>
+                <field title="Facebook" name="facebookID" type="text" size="25">
+                    <caption><![CDATA[OpenGraph 사용을 위해 Facebook 아이디 또는 Facebook App 아이디를 입력해주세요. (입력하지 않으면 Facebook에서 완벽하게 작동하지 않습니다)]]></caption>
+                </field>
+                <field title="Twitter" name="twitterAccount" type="text" size="25">
+                    <caption><![CDATA[Twitter 카드를 사용하기 위해 Twitter 아이디를 입력해주세요. (입력하지 않으면 활성화되지 않습니다)]]></caption>
+                </field>
+            </fieldset>
+        </config>
+        <config xml:lang="en" dataValueHandler="opengraph_dataset()">
+            <window width="500" height="350" />
+            <fieldset legend="Plugin settings">
+                <field title="Allows" name="allows" type="checkbox">
+                    <op name="enableOpenGraph" value="1" checked="checked"><![CDATA[OpenGraph]]></op>
+                    <op name="enableTwitter" value="1" checked="checked"><![CDATA[Twitter]]></op>
+                </field>
+                <field title="Facebook" name="facebookID" type="text" size="25">
+                    <caption><![CDATA[Enter your Facebook ID or Facebook App ID for use OpenGraph. (it may not work properly when value is not entered)]]></caption>
+                </field>
+                <field title="Twitter" name="twitterAccount" type="text" size="25">
+                    <caption><![CDATA[Enter your Twitter ID for use Twitter Cards. (not work when value is not entered)]]></caption>
+                </field>
+            </fieldset>
+        </config>
+    </binding>
+</plugin>
