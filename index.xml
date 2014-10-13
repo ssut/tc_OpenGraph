@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+    <title xml:lang="ko">오픈그래프(OpenGraph)</title>
+    <title xml:lang="en">OpenGraph</title>
+    <link>http://www.example.com/</link>
+    <version>1.0</version>
+    <description xml:lang="ko">이 플러그인은 블로그에 페이스북 오픈그래프 프로토콜을 사용할 수 있도록 해줍니다.</description>
+    <description xml:lang="en">This plugin allows you to add facebook open graph protocol to your blog.</description>
+    <license>MIT</license>
+    <author xml:lang="ko" link="http://b.ssut.me">ssut</author>
+    <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
+    <requirements>
+        <textcube>1.09</textcube>
+    </requirements>
+    <binding>
+        <tag name="SKIN_head_end" handler="print_opengraph_meta_tags" />
+        <config xml:lang="ko" dataValueHandler="opengraph_dataset()">
+            <window width="500" height="350" />
+            <fieldset legend="플러그인 설정">
+                <field title="Twitter 카드 사용" name="allowTwitterSummary" type="checkbox">
+                    <op name="enableTwitter" value="1" checked="checked"></op>
+                    <caption><![CDATA[Twitter 카드를 사용합니다. Twitter 아이디가 입력되어 있어야 활성화됩니다.]]></caption>
+                </field>
+                <field title="Twitter 계정" name="twitterUsername" type="text" size="25">
+                    <caption><![CDATA[Twitter 아이디를 입력해주세요.]]></caption>
+                </field>
+            </fieldset>
+        </config>
+    </binding>
+</plugin>
