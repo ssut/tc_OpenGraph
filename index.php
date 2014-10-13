@@ -47,7 +47,9 @@ function print_opengraph_meta_tags($target) {
             $header .= '<meta name="twitter:description" content="' . htmlspecialchars($short_content) . '" />' . CRLF;
         }
 
-        if(preg_match('/\[##_(1R|1L|1C|2C|3C|iMazing|Gallery)\|([^|]*)\.(gif|jpg|jpeg|png|bmp)\|.*_##\]/i', $entry['content'], $matches)) {
+        $tc_image = '/\[##_(1R|1L|1C|2C|3C|iMazing|Gallery)\|([^|]*)\.(gif|jpg|jpeg|png|bmp)\|.*_##\]/i';
+        $html_image = '/<\s*img [^\>]*src\s*=\s*(["\'])(.*?)\1/im';
+        if(preg_match($tc_image, $entry['content'], $matches)) {
             $image_url = $default_url . '/attach/' . $blog_id . '/' . $matches[2] . '.' . $matches[3];
 
             if($og) {
@@ -58,7 +60,7 @@ function print_opengraph_meta_tags($target) {
                 $header .= '<meta name="twitter:image" content="' . $image_url . '" />' . CRLF;
             }
         } else if(stripos($entry['content'], '<img') !== false) {
-            if(preg_match('/<\s*img [^\>]*src\s*=\s*(["\'])(.*?)\1/im', $entry['content'], $matches)) {
+            if(preg_match($html_image, $entry['content'], $matches)) {
                 if(is_array($matches) && !empty($matches)) {
                     $image_url = $matches[2];
 
@@ -72,6 +74,9 @@ function print_opengraph_meta_tags($target) {
                 }
             }
         }
+
+        unset($tc_image);
+        unset($html_image);
     }
 
     $target = $target . $header;
