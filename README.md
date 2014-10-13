@@ -17,7 +17,7 @@ If you like this plugin, please click the **star** button at the top of the repo
 1. Upload the tc_OpenGraph folder to the */plugins* directory.
 2. Activate the OpenGraph plugin through the 'PlugIn' menu in textcube admin page.
 
-You **must** add your Facebook ID or an App ID to the plugin settings for the plugin to produce OGP meta data. This is required by Facebook.
+You can add your Facebook ID or an App ID to the plugin settings for the plugin to produce OGP meta data. This is required by Facebook and crucial for Facebook Insights to work properly.
 
 You **must** add your Twitter ID for the plugin to produce Twitter meta data. This is required by Twitter.
 
