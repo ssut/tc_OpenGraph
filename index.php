@@ -9,10 +9,19 @@ function print_opengraph_meta_tags($target) {
     $blog_id = $context->getProperty('blog.id');
     $blog_url = $context->getProperty('uri.blog');
     $blog_title = $context->getProperty('blog.title');
-    $default_url = $context->getProperty('uri.default');
-    $use_encode_url = $context->getProperty('service.useEncodeURL');
 
     $short_content = UTF8::lessenAsEm(removeAllTags(stripHTML($entry['content'])), 150);
+    
+    $protocol = 'http://';
+    if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
+        isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+            $protocol = 'https://';
+    }
+    else {
+        $protocol = 'http://';
+    }
+    
+    $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     $og = false;
     $twitter = false;
@@ -27,29 +36,21 @@ function print_opengraph_meta_tags($target) {
     if($og) {
         $header .= '<meta name="og:site_name" content="' . htmlspecialchars($blog_title) . '" />' . CRLF;
         $header .= '<meta name="og:type" content="blog" />' . CRLF;
+        $header .= '<meta name="og:title" content="' . htmlspecialchars($entry['title']) . '" />' . CRLF;
+        $header .= '<meta name="og:url" content="' . htmlspecialchars($url) . '" />' . CRLF;
+        $header .= '<meta name="og:description" content="' . htmlspecialchars($short_content) . '" />' . CRLF;
     }
 
     if($twitter) {
         $header .= '<meta name="twitter:domain" content="' . htmlspecialchars($_SERVER['HTTP_HOST']) . '" />' . CRLF;
         $header .= '<meta name="twitter:card" content="summary" />' . CRLF;
-        $header .= '<meta name="twitter:site" content="@' . $config['twitterAccount'] . '" />' . CRLF;
+        $header .= '<meta name="twitter:site" content="@' . htmlspecialchars($config['twitterAccount']) . '" />' . CRLF;
+        $header .= '<meta name="twitter:title" content="' . htmlspecialchars($entry['title']) . '" />' . CRLF;
+        $header .= '<meta name="twitter:url" content="' . htmlspecialchars($url) . '" />' . CRLF;
+        $header .= '<meta name="twitter:description" content="' . htmlspecialchars($short_content) . '" />' . CRLF;
     }
 
     if(!empty($entry['title'])) {
-        $url = $default_url . '/' . ($blog['useSloganOnPost'] ?
-            'entry/'.URL::encode($entry['slogan'], $use_encode_url) : $entry['id']);
-
-        if($og) {
-            $header .= '<meta name="og:title" content="' . htmlspecialchars($entry['title']) . '" />' . CRLF;
-            $header .= '<meta name="og:url" content="' . htmlspecialchars($url) . '" />' . CRLF;
-            $header .= '<meta name="og:description" content="' . htmlspecialchars($short_content) . '" />' . CRLF;
-        }
-
-        if($twitter) {
-            $header .= '<meta name="twitter:title" content="' . htmlspecialchars($entry['title']) . '" />' . CRLF;
-            $header .= '<meta name="twitter:url" content="' . htmlspecialchars($url) . '" />' . CRLF;
-            $header .= '<meta name="twitter:description" content="' . htmlspecialchars($short_content) . '" />' . CRLF;
-        }
 
         $tc_image = '/\[##_(1R|1L|1C|2C|3C|iMazing|Gallery)\|([^|]*)\.(gif|jpg|jpeg|png|bmp)\|.*_##\]/i';
         $html_image = '/<\s*img [^\>]*src\s*=\s*(["\'])(.*?)\1/im';
@@ -85,16 +86,6 @@ function print_opengraph_meta_tags($target) {
 
     $target = $target . $header;
     return $target;
-}
-
-function http_protocol() {
-    $protocol = 'http';
-    if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
-        isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
-      $protocol = 'https';
-    }
-
-    return $protocol;
 }
 
 function opengraph_dataset($data) {
