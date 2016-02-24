@@ -36,18 +36,38 @@ function print_opengraph_meta_tags($target) {
     if($og) {
         $header .= '<meta name="og:site_name" content="' . htmlspecialchars($blog_title) . '" />' . CRLF;
         $header .= '<meta name="og:type" content="blog" />' . CRLF;
-        $header .= '<meta name="og:title" content="' . htmlspecialchars($entry['title']) . '" />' . CRLF;
+        if(empty($entry['title'])) {
+            $header .= '<meta name="og:title" content="' . htmlspecialchars($blog_title) . '" />' . CRLF;
+        }
+        else {
+            $header .= '<meta name="og:title" content="' . htmlspecialchars($entry['title']) . '" />' . CRLF;
+        }
         $header .= '<meta name="og:url" content="' . htmlspecialchars($url) . '" />' . CRLF;
-        $header .= '<meta name="og:description" content="' . htmlspecialchars($short_content) . '" />' . CRLF;
+        if(empty($short_content)) {
+            $header .= '<meta name="og:description" content="' . htmlspecialchars($blog_title) . '" />' . CRLF;
+        }
+        else {
+            $header .= '<meta name="og:description" content="' . htmlspecialchars($short_content) . '" />' . CRLF;
+        }
     }
 
     if($twitter) {
         $header .= '<meta name="twitter:domain" content="' . htmlspecialchars($_SERVER['HTTP_HOST']) . '" />' . CRLF;
         $header .= '<meta name="twitter:card" content="summary" />' . CRLF;
         $header .= '<meta name="twitter:site" content="@' . htmlspecialchars($config['twitterAccount']) . '" />' . CRLF;
-        $header .= '<meta name="twitter:title" content="' . htmlspecialchars($entry['title']) . '" />' . CRLF;
+        if(empty($entry['title'])) {
+            $header .= '<meta name="twitter:title" content="' . htmlspecialchars($blog_title) . '" />' . CRLF;
+        }
+        else {
+            $header .= '<meta name="twitter:title" content="' . htmlspecialchars($entry['title']) . '" />' . CRLF;
+        }
         $header .= '<meta name="twitter:url" content="' . htmlspecialchars($url) . '" />' . CRLF;
-        $header .= '<meta name="twitter:description" content="' . htmlspecialchars($short_content) . '" />' . CRLF;
+        if(empty($short_content)) {
+            $header .= '<meta name="twitter:description" content="' . htmlspecialchars($blog_title) . '" />' . CRLF;
+        }
+        else {
+            $header .= '<meta name="twitter:description" content="' . htmlspecialchars($short_content) . '" />' . CRLF;
+        }
     }
 
     if(!empty($entry['title'])) {
